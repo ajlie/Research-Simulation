@@ -1,0 +1,22 @@
+function opt = chenOpt(params,x0)
+    Param.L=20;
+    Param.I=5;
+    opt=0;
+    ys=[];
+    ts=[];
+    Param.Q=params(1);
+    [t, y] = ode23(@(t, y) chen_ode(t, y, Param), [0:19], x0);
+    ys=[ys;y] ;
+    ts=[ts;t];
+    x0=y(end,:);
+    Param.Q=params(2);
+    [t, y] = ode23(@(t, y) chen_ode(t, y, Param), [20:39], x0);
+    ts=[ts;t];
+    ys=[ys;y] ;
+    x0=y(end,:);
+    Param.Q=params(3);
+    [t, y] = ode23(@(t, y) chen_ode(t, y, Param), [40:70], x0);
+    ts=[ts;t];
+    ys=[ys;y] ;
+    opt=sum(ys(:,2).^2);
+end
